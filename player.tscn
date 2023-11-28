@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://cydeuvm3405lt"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_003vh"]
+[ext_resource type="Texture2D" uid="uid://ckb5ium80ove6" path="res://Pipoya RPG Tileset 16x16/idledone.png" id="2_xrunm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qrdhe"]
+size = Vector2(11, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6d1my"]
+atlas = ExtResource("2_xrunm")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh3x4"]
+atlas = ExtResource("2_xrunm")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xas6w"]
+atlas = ExtResource("2_xrunm")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2i103"]
+atlas = ExtResource("2_xrunm")
+region = Rect2(96, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_82w1d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6d1my")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh3x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xas6w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2i103")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 4.0
+}]
+
+[node name="Player" type="CharacterBody2D"]
+z_index = 2
+script = ExtResource("1_003vh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_qrdhe")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+sprite_frames = SubResource("SpriteFrames_82w1d")
+animation = &"idle"

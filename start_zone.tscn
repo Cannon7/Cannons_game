@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://cf4frtfquhrfe"]
+
+[ext_resource type="Script" path="res://Scripts/start_zone.gd" id="1_f6b4l"]
+[ext_resource type="PackedScene" uid="uid://c7fyvamq13e0j" path="res://Scenes/start_zone_map.tscn" id="1_rjwqo"]
+[ext_resource type="PackedScene" uid="uid://cydeuvm3405lt" path="res://player.tscn" id="2_2kt0f"]
+[ext_resource type="PackedScene" uid="uid://bj6n8hgememtf" path="res://UI/transition.tscn" id="4_cqr08"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nrcdw"]
+size = Vector2(9, 12)
+
+[node name="start_zone" type="Node2D"]
+script = ExtResource("1_f6b4l")
+
+[node name="start_zone_map" parent="." instance=ExtResource("1_rjwqo")]
+z_index = -1
+
+[node name="cavedoor" type="Area2D" parent="start_zone_map"]
+position = Vector2(88, 35)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="start_zone_map/cavedoor"]
+shape = SubResource("RectangleShape2D_nrcdw")
+
+[node name="Player" parent="." groups=["player"] instance=ExtResource("2_2kt0f")]
+position = Vector2(150, 136)
+scale = Vector2(0.75, 0.75)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
+remote_path = NodePath("../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+process_callback = 0
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="transition" parent="CanvasLayer" instance=ExtResource("4_cqr08")]
+offset_left = 6.0
+offset_top = -8.0
+offset_right = 6.0
+offset_bottom = -8.0
+
+[connection signal="body_entered" from="start_zone_map/cavedoor" to="CanvasLayer/transition" method="_on_cavedoor_body_entered"]
+[connection signal="anim_ready" from="CanvasLayer/transition" to="." method="_on_transition_anim_ready"]
